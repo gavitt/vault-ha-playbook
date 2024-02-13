@@ -1,3 +1,9 @@
+---
+- name: Create directory fot certificate
+  ansible.builtin.file:
+    path: "{{ ca_path }}"
+    state: directory
+
 - name: Generate CA private key
   shell: >
     openssl genrsa {{ ca_key_size }} > {{ ca_path }}/{{ ca_key }}
