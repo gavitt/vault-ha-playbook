@@ -1,3 +1,4 @@
+---
 vault_tls_dir: /etc/vault/tls
 vault_user: vault
 vault_group: vault

@@ -1,3 +1,4 @@
+---
 vault_version: 1.15.5
 vault_url: https://hashicorp-releases.yandexcloud.net/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
 
