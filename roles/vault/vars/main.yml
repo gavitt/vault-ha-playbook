@@ -1,0 +1,20 @@
+vault_version: 1.15.5
+vault_url: https://hashicorp-releases.yandexcloud.net/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
+
+vault_config_dir: /etc/vault
+vault_data_dir: /var/lib/vault/data
+
+vault_user: vault
+vault_group: vault
+
+vault_conf: /etc/vault/config.hcl
+vault_cluster_name: vault
+vault_servise_path: /etc/systemd/system/vault.service
+vault_tls_dir: /etc/vault/tls
+
+vault_port: 8200
+vault_cluster_port: 8201
+
+name_node_1: vault-node-1
+name_node_2: vault-node-2
+name_node_3: vault-node-3

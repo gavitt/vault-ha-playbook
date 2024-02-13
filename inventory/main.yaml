@@ -1,0 +1,11 @@
+---
+all:
+  hosts:
+    vault-node-1:
+      ansible_host: 192.168.77.25
+    vault-node-2:
+      ansible_host: 192.168.77.26
+    vault-node-3:
+      ansible_host: 192.168.77.27
+  vars:
+    ansible_user: itt

@@ -1,0 +1,43 @@
+---
+- name: Install applications
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: present
+
+- name: Extract Vault archive
+  ansible.builtin.unarchive:
+    src: "{{ vault_url }}"
+    dest: "/usr/local/bin"
+    remote_src: yes
+
+- name: Create config directory Vault
+  ansible.builtin.file:
+    path: "{{ vault_config_dir }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Create data directory Vault
+  ansible.builtin.file:
+    path: "{{ vault_data_dir }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Copy vault config file from template 
+  ansible.builtin.template:
+    src: templates/config.hcl.j2
+    dest: "{{ vault_conf }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Copy vault systemd service file from template
+  ansible.builtin.template:
+    src: templates/vault.service.j2
+    dest: "{{ vault_servise_path }}"
+    mode: 0755
+  notify:
+    - vault_restart

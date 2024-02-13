@@ -1,0 +1,11 @@
+vault_tls_dir: /etc/vault/tls
+vault_user: vault
+vault_group: vault
+ca_cert_days: 3650
+ca_key_size: 2048
+ca_path: roles/tls/files
+
+ca_key: vault-ca-key.pem
+ca_crt: vault-ca.crt
+
+ca_local_dir: /usr/local/share/ca-certificates

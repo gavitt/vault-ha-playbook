@@ -1,0 +1,64 @@
+---
+- name: Create Vault group
+  ansible.builtin.group:
+    name: "{{ vault_group }}"
+
+- name: Create Vault user
+  ansible.builtin.user:
+    name: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    system: true
+    state: present
+
+- name: Create directory TLS
+  ansible.builtin.file:
+    path: "{{ vault_tls_dir }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Copy config file DNS v3_ca
+  ansible.builtin.template:
+    src: templates/cfg.j2
+    dest: "{{ vault_tls_dir }}/{{ ansible_hostname }}.cfg"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Copy ca-certificate and key
+  copy:
+    src: "{{ ca_path }}/"
+    dest: "{{ vault_tls_dir }}/"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Create CRS file 
+  shell: >
+    sudo -u {{ vault_user }} 
+    openssl req -newkey rsa:2048 -nodes
+    -keyout {{ vault_tls_dir }}/{{ ansible_hostname }}-key.pem 
+    -out {{ vault_tls_dir }}/{{ ansible_hostname }}-crs.pem 
+    -subj "/CN={{ ansible_hostname }}"
+
+- name: Create sertificate
+  shell: >
+    sudo -u {{ vault_user }}
+    openssl x509 -req -set_serial 01
+    -days {{ ca_cert_days }}
+    -in {{ vault_tls_dir }}/{{ ansible_hostname }}-csr.pem 
+    -out {{ vault_tls_dir }}/{{ ansible_hostname }}-cert.pem 
+    -CA {{ vault_tls_dir }}/{{ ca_crt }}
+    -CAkey {{ vault_tls_dir }}/{{ ca_key }}
+    -extensions v3_ca 
+    -extfile {{ vault_tls_dir }}/{{ ansible_hostname }}.cfg
+
+- name: Copy ca-certificate to 
+  copy:
+    src: "{{ ca_path }}/{{ ca_crt }}"
+    dest: "{{ ca_local_dir }}/{{ ca_crt }}"
+    mode: 0644
+
+- name: Update ca-certificate
+  shell: update-ca-certificates
