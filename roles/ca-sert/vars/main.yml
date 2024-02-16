@@ -14,4 +14,4 @@ ca_common_name: "YourCACommonName"
 ca_path: roles/tls/files
 
 ca_key: vault-ca-key.pem
-ca_crt: vault-ca.crt
+ca_crt: vault-ca.pem

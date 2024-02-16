@@ -20,4 +20,4 @@ name_node_1: vault-node-1
 name_node_2: vault-node-2
 name_node_3: vault-node-3
 
-ca_crt: vault-ca.crt
+ca_crt: vault-ca.pem

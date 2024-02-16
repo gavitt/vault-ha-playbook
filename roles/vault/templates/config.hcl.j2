@@ -6,7 +6,7 @@ ui = true
 
 listener "tcp" {
   address            = "0.0.0.0:{{ vault_port }}"
-  tls_ca_cert_file   = "{{ vault_tls_dir}}/ca-cert.pem"
+  tls_ca_cert_file   = "{{ vault_tls_dir}}/{{ ca_crt }}"
   tls_cert_file      = "{{ vault_tls_dir}}/{{ ansible_hostname }}-cert.pem"
   tls_key_file       = "{{ vault_tls_dir}}/{{ ansible_hostname }}-key.pem"
 

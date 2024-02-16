@@ -47,7 +47,7 @@
     sudo -u {{ vault_user }}
     openssl x509 -req -set_serial 01
     -days {{ ca_cert_days }}
-    -in {{ vault_tls_dir }}/{{ ansible_hostname }}-csr.pem 
+    -in {{ vault_tls_dir }}/{{ ansible_hostname }}-crs.pem 
     -out {{ vault_tls_dir }}/{{ ansible_hostname }}-cert.pem 
     -CA {{ vault_tls_dir }}/{{ ca_crt }}
     -CAkey {{ vault_tls_dir }}/{{ ca_key }}
@@ -57,7 +57,7 @@
 - name: Copy ca-certificate to 
   copy:
     src: "{{ ca_path }}/{{ ca_crt }}"
-    dest: "{{ ca_local_dir }}/{{ ca_crt }}"
+    dest: "{{ ca_local_dir }}/{{ ca_crt_loc }}"
     mode: 0644
 
 - name: Update ca-certificate
